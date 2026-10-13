@@ -1,8 +1,4 @@
 ﻿MultiLingualTexts:
-  - id: MLC_3mu
-    en-US: 'Zap V<a>.<b>. a = Major hardware change '
-  - id: MLC_4Q4
-    en-US: Zap V<a>.<b>. b = Device configuration change / HMI change
   - id: MLC_3fD
     en-US: 'Sw V<x>.<y>.<z> x = Major change '
   - id: MLC_3Vs
