@@ -7,7 +7,7 @@ on:
         description: "Version number, e.g. 1.0.1.1.0"
         required: true
       branch:
-        description: "Release candidate branch, e.g. release/candidate-1"
+        description: "Release candidate to release, e.g. release/candidate-2"
         required: true
 
 permissions:
@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VERSION: ${{ inputs.version }}
-      RC: ${{ inputs.branch }}
     steps:
       - name: Check version format
         run: |
@@ -40,4 +39,4 @@ jobs:
           git push origin "changelog/$VERSION"
       - name: Link to open the PR
         run: |
-          echo "### Next: [open the release PR](https://github.com/${{ github.repository }}/compare/$RC...changelog/$VERSION?expand=1)" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Next: [open the release PR](https://github.com/${{ github.repository }}/compare/main...changelog/$VERSION?expand=1)" >> "$GITHUB_STEP_SUMMARY"
