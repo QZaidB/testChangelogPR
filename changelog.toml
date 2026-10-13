@@ -1,0 +1,76 @@
+# 10Qx Changelog
+
+# This file describes customer-facing changes to Qlayers' Coat package and will
+# generally be a distilled version of repo-specific changelogs
+
+# [[release]]
+# version = "A.B.X.Y.Z"
+# date = "XXXX-XX-XX"
+# added = []
+# changed = []
+# deprecated = []
+# removed = []
+# fixed = []
+# security = []
+
+[[release]]
+version = "1.0.1.1.0"
+date = "2026-10-01"
+changed = [
+    "Disabling support wheel function (HMI) retracts wheel and 500ms later both extend and retract outputs turn to FALSE. Tested. The 5/3 valve (resting position closed) retains position pneumatically",
+]
+
+[[release]]
+version = "1.0.1.0.0"
+date = "2026-09-30"
+changed = [
+    "Changed the Inline heaters color when not enabled from grey to red",
+	"Disabled PLC webserver, was left enabled by accident",
+]
+
+[[release]]
+version = "1.0.1.0.0"
+date = "2026-09-28"
+added = [
+    "Initial software release after CC4 changes",
+    "Introduce first scan for interrupt based OBs",
+    "Added a topology profinet connection between left and right wheel drives",
+    "Chiller alarms and warnings now displayed on HMI",
+    "Added the R&D HMI to the project tree in a folder named '99. Only for R&D crawler'",
+]
+changed = [
+    "Crwlr enable (energize) turning off also if brakes are not engaged after 3sec",
+    "OB_Crawler is now in SCL without any tags, calling 1 FB (FB_Crawler)",
+    "HMI: Per request TGB. Changed the limits of the DB_HMI_MagnetDistanceSetpoint_HMI tag in HMI project. Now permissible values are from 0 (Lower 2) to 15 (Upper 2)",
+    "HMI: sensor values are being hidden if their sensors are not connected",
+    "HMI: Inline heater enable button created",
+    "HMI: Graco navigation button grayed out and not made to enter.",
+    "HMI: Button to enable support wheel functionality",
+    "Motors: motor communication refactor",
+    "Hoseless suction: modbus read cyclic and write only if a setpoint value is changed. Also statemachine improvements, similair to the LA.",
+    "Linear actuator: UDT FrameActuation is made correct",
+    "Linear actuator: Ignore detach setpoint when detaching the crawler",
+    "Linear actuator: Enable Servo now also ON in when Automode and AttachDetachMode are enabled",
+    "Ultrasonic sensor: IP changes from .204 to .201",
+    "Ultrasonic sensor: data rate is written from the PLC to sensor, only if its retained value <> to setpoint (100Hz).",
+    "Ultrasonic sensor: now automatically configured via the PLC to TILT or GYRO depending on orientation (WALL or FLOOR) and if the user requests Floor operation",
+    "Ultrasonic sensor offset calibration: guard against erroneous calibration value",
+    "Ultrasonic sensor offset calibration: Calibrate on first PLC scan in cyclic block",
+    "Ultrasonic sensor offset calibration: Allow calibration on user command. Currently not exposed in the HMI",
+    "Linear actuator: LA modbus data mapping one-liner using deserialize. Now array of bytes.",
+    "Refactored FB_MagnetDistanceControl, FB_Leadshine_ModbusReadWrite, FC_AttachDetachControl",
+    "Manually numbers all DBs, FBs and FCs. 3 non-optimized DBs have specific numbers (15,16 and 42)",
+]
+fixed = [
+    "Crawler disable HMi button logic was faulty",
+    "Fixed CrawlerConnected FirstScan bit (replaced with FirstScanInterrupt)",
+    "Motors: Absolute counter from the drives were DINT's that were moved to INT, so we were losing data, but now it is moved to another DINT. This way the wiggle FB is more stable",
+    "Motors: Moved timer instance out of IF statements and used only 1 instance in FB_MotorWrite. SinaPara V1.1, because higher does not work for some reason.",
+    "Ultrasonic sensor: scale raw data first then determine sensor state",
+    "Ultrasonic sensor: Disallow auto mode when if ultrasonic sensor is faulty instead of when out of range",
+    "HMI: Chiller alarms and warnings mapping mistake reverted and round indicators not buttons anymore, but circles",
+    "Linear actuator: fixed the leadshine data mapping",
+    "Sick SIG300: Fixed IO-link crawlerCOnnected state",
+    "Remote controller: fixed acknowledgement RemoteContorl Estop",
+    "Fix DB_Alarms_HMI [DB101]. Set again to non-optimized, because needed for POKE call in FC_SwapHMIDB",
+]
