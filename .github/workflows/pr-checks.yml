@@ -2,25 +2,25 @@ name: PR checks
 
 on:
   pull_request:
-    branches: [release-candidate]
+    branches: ['release/**']
     types: [opened, edited, synchronize, reopened, labeled, unlabeled]
 
 jobs:
   title:
-    if: ${{ !startsWith(github.head_ref, 'release/') }}
+    if: ${{ !startsWith(github.head_ref, 'changelog/') }}
     runs-on: ubuntu-latest
     steps:
       - name: Check PR title
         env:
           TITLE: ${{ github.event.pull_request.title }}
         run: |
-          if ! echo "$TITLE" | grep -qE '^[A-Z]+-[0-9]+: .{10,}'; then
-            echo "::error::PR title must look like 'PLC-123: Short description'. Click Edit next to the title at the top of the PR page."
+          if ! echo "$TITLE" | grep -qE '^(feat|fix|chore|docs|refactor|test|ci)(\(.+\))?!?: .{5,}'; then
+            echo "::error::PR title must look like 'feat: Short description' (or fix:, chore:, docs:, refactor:, test:, ci:). Click Edit next to the title at the top of the PR page."
             exit 1
           fi
 
   changelog:
-    if: ${{ !startsWith(github.head_ref, 'release/') && !contains(github.event.pull_request.labels.*.name, 'no-changelog') }}
+    if: ${{ !startsWith(github.head_ref, 'changelog/') && !contains(github.event.pull_request.labels.*.name, 'no-changelog') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
