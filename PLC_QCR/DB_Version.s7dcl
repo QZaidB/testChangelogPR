@@ -7,10 +7,6 @@
 DATA_BLOCK DB_Version
     VAR
         PLCversion : STRUCT
-            { S7_MLC := "MLC_3mu" }
-            "a" : Int;
-            { S7_MLC := "MLC_4Q4" }
-            "b" : Int;
             { S7_MLC := "MLC_3fD" }
             x : Int;
             { S7_MLC := "MLC_3Vs" }
@@ -20,8 +16,6 @@ DATA_BLOCK DB_Version
         END_STRUCT;
     END_VAR
 
-    PLCversion."a" := 1;
-    PLCversion."b" := 1000;
     PLCversion.x := 1;
     PLCversion.y := 1;
     PLCversion."z" := 0;
