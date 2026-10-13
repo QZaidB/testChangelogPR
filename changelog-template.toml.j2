@@ -1,0 +1,14 @@
+{% macro q(s) %}"{{ s|replace("\\", "\\\\")|replace('"', '\\"')|replace("\n", "\\n") }}"{% endmacro %}
+{% for section in sections %}
+[[release]]
+version = {{ q(versiondata.version) }}
+date = {{ q(versiondata.date) }}
+{% for category in definitions if category in sections[section] %}
+{{ category }} = [
+{% for text, values in sections[section][category].items() %}
+    {{ q(text ~ (" (#" ~ values|join(", #") ~ ")" if values else "")) }},
+{% endfor %}
+]
+{% endfor %}
+
+{% endfor %}
