@@ -1,43 +1,18 @@
 @echo off
-setlocal
 chcp 65001 >nul
 
-:askpr
-set "URL="
-set "PR="
-set /p URL=Paste the PR link (e.g. https://github.com/org/repo/pull/123): 
-if not defined URL goto badpr
-set "REST=%URL:*/pull/=%"
-if "%REST%"=="%URL%" goto badpr
-for /f "delims=/#? " %%n in ("%REST%") do set "PR=%%n"
-if not defined PR goto badpr
-for /f "delims=0123456789" %%x in ("%PR%") do goto badpr
-goto gotpr
+:ask
+set "URL=-"
+set /p URL=Paste the PR link: 
+set "PR=%URL:*/pull/=%"
+if "%PR%"=="%URL%" echo Not a PR link, try again. & goto ask
+for /f "delims=/#" %%n in ("%PR%") do set "PR=%%n"
 
-:badpr
-echo.
-echo That is not a PR link. Open your PR on GitHub, copy the address
-echo from the browser bar and paste it here. No PR yet? Create it first.
-echo.
-goto askpr
+echo 1=added 2=changed 3=deprecated 4=removed 5=fixed 6=security
+choice /c 123456 /n /m "Type: "
+for /f "tokens=%errorlevel%" %%t in ("added changed deprecated removed fixed security") do set TYPE=%%t
 
-:gotpr
-echo PR #%PR%
-echo.
-echo What kind of change is this?
-echo   1 = added       new feature or block
-echo   2 = changed     existing behaviour works differently
-echo   3 = deprecated  still works, will be removed later
-echo   4 = removed     feature or block removed
-echo   5 = fixed       bug fix
-echo   6 = security    security-related fix
-choice /c 123456 /n /m "Choose 1-6: "
-set TYPES=added changed deprecated removed fixed security
-for /f "tokens=%errorlevel%" %%t in ("%TYPES%") do set TYPE=%%t
-echo.
-set /p DESC=Describe the change in one sentence: 
+set /p DESC=One sentence: 
 > "%~dp0changelog\%PR%.%TYPE%.md" echo %DESC%
-echo.
-echo Created changelog\%PR%.%TYPE%.md
-echo Commit this file together with your changes.
+echo Created changelog\%PR%.%TYPE%.md - commit it.
 pause
