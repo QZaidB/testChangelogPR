@@ -1,16 +1,16 @@
-### Relevant Goodday tickets
-<!-- add Goodday links -->
+## Summary
+<!-- What changed and why, in 1–3 sentences. -->
 
-## What changed
+## Goodday
+<!-- Link the related ticket(s). -->
+- 
 
+## How to test
+<!-- Steps for the reviewer, and what they should see compared to the target branch. -->
 
-## Steps to test
-<!--
-Explain how the reviewer can confirm your changes are working as expected. What is the expected difference between the target branch and this branch?
-Add relevant files to the merge request description
- -->
-
-## Screenshot/additional
+## Screenshots
+<!-- Optional: HMI screens, TIA portal trace, diagnostics. -->
 
 ## Checklist
-- [ ] Changelog file added (double-click `new-change.bat`, or Add file → `changelog/<PR>.<type>.md`)
+- [ ] Tested in on hardware or PLCSIM 
+- [ ] Changelog entry added (`new-change.bat`)
