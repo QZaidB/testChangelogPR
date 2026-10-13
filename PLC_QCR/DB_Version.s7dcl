@@ -21,7 +21,7 @@ DATA_BLOCK DB_Version
     END_VAR
 
     PLCversion."a" := 1;
-    PLCversion."b" := 0;
+    PLCversion."b" := 1000;
     PLCversion.x := 1;
     PLCversion.y := 1;
     PLCversion."z" := 0;
