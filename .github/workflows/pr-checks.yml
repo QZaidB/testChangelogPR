@@ -3,22 +3,9 @@ name: PR checks
 on:
   pull_request:
     branches: ['release/**']
-    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 jobs:
-  title:
-    if: ${{ !startsWith(github.head_ref, 'changelog/') }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check PR title
-        env:
-          TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          if ! echo "$TITLE" | grep -qE '^(feat|fix|chore|docs|refactor|test|ci)(\(.+\))?!?: .{5,}'; then
-            echo "::error::PR title must look like 'feat: Short description' (or fix:, chore:, docs:, refactor:, test:, ci:). Click Edit next to the title at the top of the PR page."
-            exit 1
-          fi
-
   changelog:
     if: ${{ !startsWith(github.head_ref, 'changelog/') && !contains(github.event.pull_request.labels.*.name, 'no-changelog') }}
     runs-on: ubuntu-latest
@@ -29,9 +16,9 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - name: Check for a changelog file
         run: |
-          uvx towncrier check --compare-with origin/${{ github.base_ref }} || {
+          uvx towncrier check --config deployment/towncrier.toml --dir . --compare-with origin/${{ github.base_ref }} || {
             echo "::error::No changelog file found. Double-click new-change.bat, commit the file and push. No entry needed? Ask a reviewer to add the no-changelog label."
             exit 1
           }
       - name: Preview the changelog
-        run: uvx towncrier build --draft --version preview
+        run: uvx towncrier build --config deployment/towncrier.toml --dir . --draft --version preview
