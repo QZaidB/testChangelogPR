@@ -3,11 +3,11 @@ name: PR checks
 on:
   pull_request:
     branches: ['release/**']
-    types: [opened, synchronize, reopened, labeled, unlabeled]
+    types: [opened, synchronize, reopened]
 
 jobs:
   changelog:
-    if: ${{ !startsWith(github.head_ref, 'changelog/') && !contains(github.event.pull_request.labels.*.name, 'no-changelog') }}
+    if: ${{ !startsWith(github.head_ref, 'changelog/') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +17,7 @@ jobs:
       - name: Check for a changelog file
         run: |
           uvx towncrier check --config deployment/towncrier.toml --dir . --compare-with origin/${{ github.base_ref }} || {
-            echo "::error::No changelog file found. Double-click new-change.bat, commit the file and push. No entry needed? Ask a reviewer to add the no-changelog label."
+            echo "::error::No changelog file found. Double-click new-change.bat, commit the file and push."
             exit 1
           }
       - name: Preview the changelog

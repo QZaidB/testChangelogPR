@@ -13,4 +13,3 @@ Examples:
 - `125.changed.md` → Tank overfill alarm text now includes the tank number.
 
 Write what changed on the machine or in the project, not how the code changed.
-No entry needed? Ask a reviewer to add the `no-changelog` label.
