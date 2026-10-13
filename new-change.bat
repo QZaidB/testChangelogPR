@@ -5,7 +5,8 @@ rem UTF-8 so special characters (degrees, accents) are saved correctly
 chcp 65001 >nul
 pushd "%~dp0"
 
-set "TYPES=added changed deprecated removed fixed security HMI"
+rem Change types. Keep in sync with deployment\towncrier.toml
+set "TYPES=added changed deprecated removed fixed security hmi"
 
 call :ask_pr
 call :ask_type

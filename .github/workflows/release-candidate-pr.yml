@@ -1,0 +1,42 @@
+name: "Release candidate PR: changelog preview"
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Only release candidates may merge into main
+        env:
+          HEAD: ${{ github.head_ref }}
+        run: |
+          case "$HEAD" in
+            release/candidate-*) ;;
+            *) echo "::error::Only release/candidate-* branches can be merged into main (this is '$HEAD')."; exit 1 ;;
+          esac
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Post preview, and block release until the changelog is assembled
+        run: |
+          {
+            echo "### Changelog preview"
+            if [ -z "$(find changelog -type f ! -name README.md)" ]; then
+              echo "No unassembled entries. Ready to release."
+            else
+              echo '```toml'
+              uvx towncrier build --config deployment/towncrier.toml --dir . --draft --version unassembled 2>/dev/null
+              echo '```'
+              echo "_Run **Actions → Release candidate: assemble changelog** on this branch before merging._"
+            fi
+          } > preview.md
+          gh pr comment ${{ github.event.pull_request.number }} --edit-last --create-if-none --body-file preview.md
+          grep -q "Ready to release" preview.md || { echo "::error::Changelog not assembled yet. Run 'Release candidate: assemble changelog' on this branch and merge its PR."; exit 1; }

@@ -1,4 +1,4 @@
-name: PR checks
+name: "Feature PR: changelog entry required"
 
 on:
   pull_request:
@@ -20,5 +20,3 @@ jobs:
             echo "::error::No changelog file found. Double-click new-change.bat, commit the file and push."
             exit 1
           }
-      - name: Preview the changelog
-        run: uvx towncrier build --config deployment/towncrier.toml --dir . --draft --version preview

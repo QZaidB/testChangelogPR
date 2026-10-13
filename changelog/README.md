@@ -5,7 +5,7 @@ Every PR adds one file here: `<PR number>.<type>.md`, containing one sentence.
 Easiest: double-click `new-change.bat` in the repo root.
 Or on GitHub: open your PR, then Add file → `changelog/123.fixed.md`.
 
-Types: added, changed, deprecated, removed, fixed, security
+Types: listed in `deployment/towncrier.toml` (added, changed, deprecated, removed, fixed, security, hmi)
 
 Examples:
 - `123.fixed.md` → Conveyor FB_Motor no longer faults when restarting after E-stop.
