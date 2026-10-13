@@ -2,6 +2,6 @@
   - id: MLC_3fD
     en-US: 'Sw V<x>.<y>.<z> x = Major change '
   - id: MLC_3Vs
-    en-US: 'Sw V<x>.<y>.<z> x = Minor change '
+    en-US: 'Sw V<x>.<y>.<z> x = Minor change HMI'
   - id: MLC_3UT
     en-US: 'Sw V<x>.<y>.<z> z = Bugfix / Hotfix '
