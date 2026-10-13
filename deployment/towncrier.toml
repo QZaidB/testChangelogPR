@@ -1,6 +1,6 @@
 [tool.towncrier]
-directory = "changelog.d"
-filename = "CHANGELOG.toml"
+directory = "changelog"
+filename = "changelog.toml"
 template = "deployment/changelog-template.toml.j2"
 start_string = "# towncrier release notes start\n"
 title_format = false

@@ -1,6 +1,28 @@
 @echo off
 setlocal
-set /p PR=PR number (leave empty if you don't have one yet):
+chcp 65001 >nul
+
+:askpr
+set "URL="
+set "PR="
+set /p URL=Paste the PR link (e.g. https://github.com/org/repo/pull/123): 
+if not defined URL goto badpr
+set "REST=%URL:*/pull/=%"
+if "%REST%"=="%URL%" goto badpr
+for /f "delims=/#? " %%n in ("%REST%") do set "PR=%%n"
+if not defined PR goto badpr
+for /f "delims=0123456789" %%x in ("%PR%") do goto badpr
+goto gotpr
+
+:badpr
+echo.
+echo That is not a PR link. Open your PR on GitHub, copy the address
+echo from the browser bar and paste it here. No PR yet? Create it first.
+echo.
+goto askpr
+
+:gotpr
+echo PR #%PR%
 echo.
 echo What kind of change is this?
 echo   1 = added       new feature or block
@@ -13,10 +35,9 @@ choice /c 123456 /n /m "Choose 1-6: "
 set TYPES=added changed deprecated removed fixed security
 for /f "tokens=%errorlevel%" %%t in ("%TYPES%") do set TYPE=%%t
 echo.
-set /p DESC=Describe the change in one sentence:
-if "%PR%"=="" (set NAME=+%RANDOM%) else (set NAME=%PR%)
-> "%~dp0changelog.d\%NAME%.%TYPE%.md" echo %DESC%
+set /p DESC=Describe the change in one sentence: 
+> "%~dp0changelog\%PR%.%TYPE%.md" echo %DESC%
 echo.
-echo Created changelog.d\%NAME%.%TYPE%.md
+echo Created changelog\%PR%.%TYPE%.md
 echo Commit this file together with your changes.
 pause

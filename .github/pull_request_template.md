@@ -13,4 +13,4 @@ Add relevant files to the merge request description
 ## Screenshot/additional
 
 ## Checklist
-- [ ] Changelog file added (double-click `new-change.bat`, or Add file → `changelog.d/<PR>.<type>.md`)
+- [ ] Changelog file added (double-click `new-change.bat`, or Add file → `changelog/<PR>.<type>.md`)
