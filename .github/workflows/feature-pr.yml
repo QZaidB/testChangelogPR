@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  changelog:
+  changelog-entry:
     if: ${{ !startsWith(github.head_ref, 'changelog/') }}
     runs-on: ubuntu-latest
     steps:
